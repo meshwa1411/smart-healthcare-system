@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Patient Dashboard</title>
+
+<style>
+
+body{
+    font-family: Arial;
+    margin:0;
+    background:#f4f6f9;
+}
+
+.sidebar{
+    width:220px;
+    height:100vh;
+    background:#2c3e50;
+    color:white;
+    position:fixed;
+    padding:20px;
+}
+
+.sidebar h2{
+    text-align:center;
+}
+
+.sidebar a{
+    display:block;
+    color:white;
+    padding:10px;
+    text-decoration:none;
+    margin:10px 0;
+}
+
+.sidebar a:hover{
+    background:#34495e;
+}
+
+.main{
+    margin-left:240px;
+    padding:20px;
+}
+
+.cards{
+    display:flex;
+    gap:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    width:200px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<h2>Patient Panel</h2>
+
+<a href="#">Dashboard</a>
+<a href="/book-appointment/">Book Appointment</a>
+<a href="/appointment-history/">My Appointments</a>
+<a href="#">Prescriptions</a>
+<a href="#">Lab Reports</a>
+
+</div>
+
+<div class="main">
+
+<h1>Welcome Patient</h1>
+
+<div class="cards">
+
+<div class="card">
+<h3>Appointments</h3>
+<p>View your appointments</p>
+</div>
+
+<div class="card">
+<h3>Prescriptions</h3>
+<p>Doctor prescriptions</p>
+</div>
+
+<div class="card">
+<h3>Lab Reports</h3>
+<p>Download reports</p>
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>
