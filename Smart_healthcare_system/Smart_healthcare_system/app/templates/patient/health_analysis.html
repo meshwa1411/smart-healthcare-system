@@ -1,0 +1,133 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Healthcare</title>
+
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/library.css' %}">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<div class="navbar">
+    <div class="logo">
+        <img src="{% static 'images/healthcare_logo.webp' %}">
+        <i>Smart Healthcare System</i>
+    </div>
+
+    <div>
+        <a href="{% url 'patient_home' %}">Home</a>
+        <a href="{% url 'health_library' %}">Health Library</a>
+        <a href="{% url 'health_analysis' %}">Health Analysis</a>
+        <a href="{% url 'book_appointment' %}">Appointment</a>
+        <a href="{% url 'lab_tests' %}">Laboratory</a>
+    </div>
+
+    <div class="nav-right">
+        <a href="#">💬 Chat with Us</a>
+    </div>
+
+    <div class="nav-right">
+        <a href="{% url 'patient_dashboard' %}">Profile</a>
+    </div>
+</div>
+
+
+<!-- HEALTH ANALYSIS SECTION -->
+
+<section class="analysis-section">
+
+<h1>Your Health Analysis</h1>
+
+{% if health %}
+
+<div class="analysis-box">
+
+<h3>Health Status</h3>
+
+<p><b>Blood Pressure:</b> {{ health.blood_pressure }}</p>
+<p><b>Blood Sugar:</b> {{ health.blood_sugar }}</p>
+<p><b>Cholesterol:</b> {{ health.cholesterol }}</p>
+<p><b>Heart Rate:</b> {{ health.heart_rate }}</p>
+
+</div>
+
+
+<div class="analysis-result">
+
+<h2>Risk Analysis</h2>
+
+{% if bp_risk %}
+<p class="risk">⚠ High Blood Pressure Risk</p>
+{% endif %}
+
+{% if sugar_risk %}
+<p class="risk">⚠ Diabetes Risk</p>
+{% endif %}
+
+{% if cholesterol_risk %}
+<p class="risk">⚠ Heart Disease Risk</p>
+{% endif %}
+
+{% if not bp_risk and not sugar_risk and not cholesterol_risk %}
+<p class="safe">✅ Your health indicators look normal.</p>
+{% endif %}
+
+</div>
+
+{% else %}
+
+<div style="text-align:center; margin-top:40px;">
+<h3>No health data available.</h3>
+<p>Please submit your health information from the Health Library page.</p>
+</div>
+
+{% endif %}
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer class="footer">
+
+<div class="footer-container">
+
+<div class="footer-links">
+<h4>Quick Links</h4>
+<ul>
+<li>Home</li>
+<li>Health Analysis</li>
+<li>Health Library</li>
+<li>Book Appointment</li>
+<li>Laboratory Test</li>
+</ul>
+</div>
+
+<div class="footer-contact">
+<h4>Contact Us</h4>
+<p>Email: support@smarthealthcare.com</p>
+<p>Location: India</p>
+</div>
+
+<div class="footer-about">
+<h4>About Us</h4>
+<p>
+Smart Healthcare System helps patients monitor health
+data and connect with doctors digitally.
+</p>
+</div>
+
+</div>
+
+<div class="footer-bottom">
+<p>© 2026 Smart Healthcare System</p>
+</div>
+
+</footer>
+
+</body>
+</html>
