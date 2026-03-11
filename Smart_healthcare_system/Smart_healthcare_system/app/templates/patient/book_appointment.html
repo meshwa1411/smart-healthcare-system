@@ -1,28 +1,195 @@
-<h2>Book Appointment</h2>
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Book Appointment</title>
+
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+
+<style>
+
+.appointment-container{
+width:90%;
+margin:auto;
+padding:50px 0;
+}
+
+.appointment-title{
+text-align:center;
+font-size:38px;
+color:#0b6b53;
+margin-bottom:40px;
+}
+
+.doctor-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:25px;
+}
+
+.doctor-card{
+background:white;
+border-radius:10px;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+padding:20px;
+text-align:center;
+}
+
+.doctor-card img{
+width:120px;
+height:120px;
+border-radius:50%;
+margin-bottom:10px;
+}
+
+.doctor-card h3{
+color:#0b6b53;
+margin-bottom:5px;
+}
+
+.doctor-card p{
+margin:5px 0;
+color:#444;
+}
+
+.schedule{
+background:#f5f5f5;
+padding:10px;
+border-radius:6px;
+margin:10px 0;
+}
+
+.book-btn{
+background:#0b6b53;
+color:white;
+padding:10px 20px;
+border:none;
+border-radius:20px;
+cursor:pointer;
+text-decoration:none;
+display:inline-block;
+margin-top:10px;
+}
+
+.book-btn:hover{
+background:#084c3b;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<div class="navbar">
+
+<div class="logo">
+<img src="{% static 'images/healthcare_logo.webp' %}">
+<i>Smart Healthcare System</i>
+</div>
+
+<div>
+<a href="{% url 'patient_home' %}">Home</a>
+<a href="{% url 'health_library' %}">Health Library</a>
+<a href="{% url 'health_analysis' %}">Health Analysis</a>
+<a href="{% url 'medicine_reminder' %}">Medicine Reminder</a>
+<a href="{% url 'book_appointment' %}">Appointment</a>
+</div>
+
+<div class="nav-right">
+<a href="{% url 'patient_dashboard' %}">Profile</a>
+</div>
+
+</div>
+
+<!-- APPOINTMENT SECTION -->
+
+<div class="appointment-container">
+
+<h1 class="appointment-title">Book Doctor Appointment</h1>
+
+<div class="doctor-grid">
+
+{% for doctor in doctors %}
+
+<div class="doctor-card">
+
+<img src="{% static 'images/doctor.png' %}">
+
+<h3>Dr. {{ doctor.name }}</h3>
+
+<p><b>Specialization:</b> {{ doctor.specialization }}</p>
+
+<p><b>Experience:</b> {{ doctor.experience }} years</p>
+
+<p><b>Hospital:</b> {{ doctor.hospital }}</p>
+
+<div class="schedule">
+
+<p><b>Available Days:</b> {{ doctor.available_days }}</p>
+
+<p><b>Available Time:</b> {{ doctor.available_time }}</p>
+
+</div>
 
 <form method="POST">
 {% csrf_token %}
-    <label>Doctor</label>
-    <select name="doctor">
-        {% for doctor in doctors %}
-        <option value="{{ doctor.id }}">
-            Dr. {{ doctor.user.username }}
-        </option>
-        {% endfor %}
-    </select>
 
-    <br><br>
+<input type="hidden" name="doctor" value="{{ doctor.id }}">
 
-    <label>Date</label>
-    <input type="date" name="date">
+<input type="date" name="date" required>
+<input type="time" name="time" required>
 
-    <br><br>
-
-    <label>Time</label>
-    <input type="time" name="time">
-
-    <br><br>
-
-    <button type="submit">Book Appointment</button>
+<button type="submit" class="book-btn">
+Book Appointment
+</button>
 
 </form>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+<!-- FOOTER -->
+
+<footer class="footer">
+
+<div class="footer-container">
+
+<div class="footer-links">
+<h4>Quick Links</h4>
+<ul>
+<li>Home</li>
+<li>Health Analysis</li>
+<li>Health Library</li>
+<li>Appointment</li>
+</ul>
+</div>
+
+<div class="footer-contact">
+<h4>Contact Us</h4>
+<p>Email: support@smarthealthcare.com</p>
+</div>
+
+<div class="footer-about">
+<h4>About Us</h4>
+<p>Smart Healthcare System helps patients manage health digitally.</p>
+</div>
+
+</div>
+
+<div class="footer-bottom">
+<p>© 2026 Smart Healthcare System</p>
+</div>
+
+</footer>
+
+</body>
+</html>

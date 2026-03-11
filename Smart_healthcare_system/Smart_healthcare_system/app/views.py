@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, Group
-from .models import Doctor, Appointment, Patient,UserProfile,MedicalReport,PatientHealthData
+from .models import Doctor, Appointment, Patient,UserProfile,MedicalReport,PatientHealthData,MedicineReminder
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
 
@@ -70,7 +70,14 @@ def register_page(request):
             Patient.objects.create(user=user)
 
         if role == "doctor":
-            Doctor.objects.create(user=user)
+            Doctor.objects.create(
+        name=user.username,
+        specialization="General",
+        experience=1,
+        hospital="Not Assigned",
+        available_days="Mon-Fri",
+        available_time="10AM-2PM"
+    )
 
         messages.success(request, "Account created successfully")
 
@@ -122,11 +129,11 @@ def book_appointment(request):
         patient = Patient.objects.get(user=request.user)
 
         Appointment.objects.create(
-            patient=patient,
-            doctor=doctor,
-            date=date,
-            time=time
-        )
+        patient=patient,
+        doctor=doctor,
+        appointment_date=date,
+        appointment_time=time
+)
 
         return redirect("appointment_history")
 
@@ -278,34 +285,34 @@ def health_library(request):
     return render(request, "patient/health_library.html")
 
 
-@login_required
-def health_analysis(request):
+# @login_required
+# def health_analysis(request):
 
-    health = PatientHealthData.objects.filter(patient=request.user).last()
+#     health = PatientHealthData.objects.filter(patient=request.user).last()
 
-    bp_risk = False
-    sugar_risk = False
-    cholesterol_risk = False
+#     bp_risk = False
+#     sugar_risk = False
+#     cholesterol_risk = False
 
-    if health:
+#     if health:
 
-        if health.blood_pressure and int(health.blood_pressure) > 140:
-            bp_risk = True
+#         if health.blood_pressure and int(health.blood_pressure) > 140:
+#             bp_risk = True
 
-        if health.blood_sugar and float(health.blood_sugar) > 126:
-            sugar_risk = True
+#         if health.blood_sugar and float(health.blood_sugar) > 126:
+#             sugar_risk = True
 
-        if health.cholesterol and float(health.cholesterol) > 200:
-            cholesterol_risk = True
+#         if health.cholesterol and float(health.cholesterol) > 200:
+#             cholesterol_risk = True
 
-    context = {
-        "health": health,
-        "bp_risk": bp_risk,
-        "sugar_risk": sugar_risk,
-        "cholesterol_risk": cholesterol_risk
-    }
+#     context = {
+#         "health": health,
+#         "bp_risk": bp_risk,
+#         "sugar_risk": sugar_risk,
+#         "cholesterol_risk": cholesterol_risk
+#     }
 
-    return render(request, "patient/health_analysis.html", context)
+#     return render(request, "patient/health_analysis.html", context)
 
 def lab_tests(request):
     return render(request, "lab/lab_dashboard.html")
@@ -318,3 +325,82 @@ def admin_patient_health(request):
     return render(request, "admin/patient_health_data.html", {
         "health_data": health_data
     })
+    
+@login_required
+def medicine_reminder(request):
+
+    patient = Patient.objects.get(user=request.user)
+
+    if request.method == "POST":
+
+        medicine_name = request.POST.get("medicine_name")
+        time = request.POST.get("time")
+        days = request.POST.get("days")
+
+        MedicineReminder.objects.create(
+            patient=patient,
+            medicine_name=medicine_name,
+            time=time,
+            days=days
+        )
+
+        return redirect("medicine_reminder")
+
+    reminders = MedicineReminder.objects.filter(patient=patient)
+
+    return render(request, "patient/medicine_reminder.html", {
+        "reminders": reminders
+    })
+    
+    
+@login_required
+def health_analysis(request):
+
+    patient = Patient.objects.get(user=request.user)
+
+    health = PatientHealthData.objects.filter(patient=patient).last()
+
+    bmi = None
+
+    if health:
+        height_m = float(health.height) / 100
+        bmi = float(health.weight) / (height_m * height_m)
+
+    context = {
+        "health": health,
+        "bmi": round(bmi, 2) if bmi else None,
+        "bp_risk": int(health.blood_pressure) > 140 if health else False,
+        "sugar_risk": float(health.blood_sugar) > 180 if health else False,
+        "cholesterol_risk": float(health.cholesterol) > 200 if health else False,
+    }
+
+    return render(request, "patient/health_analysis.html", context)
+
+
+# ===============================
+# PROFILE PAGE
+# ===============================
+
+@login_required
+def profile(request):
+
+    patient = Patient.objects.get(user=request.user)
+
+    health = PatientHealthData.objects.filter(patient=patient).last()
+
+    reminders = MedicineReminder.objects.filter(patient=patient)
+
+    return render(request,"patient/profile.html",{
+        "patient":patient,
+        "health":health,
+        "reminders":reminders
+    })
+
+
+# ===============================
+# LOGOUT
+# ===============================
+
+def logout_view(request):
+     logout(request)
+     return redirect("login")

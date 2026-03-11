@@ -6,8 +6,19 @@
 
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
     <link rel="stylesheet" href="{% static 'css/library.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-
+<style>
+.health-graph{
+width:70%;
+margin:auto;
+margin-top:50px;
+background:white;
+padding:30px;
+border-radius:10px;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+</style>
 <body>
 
 <!-- NAVBAR -->
@@ -23,12 +34,12 @@
         <a href="{% url 'health_library' %}">Health Library</a>
         <a href="{% url 'health_analysis' %}">Health Analysis</a>
         <a href="{% url 'book_appointment' %}">Appointment</a>
-        <a href="{% url 'lab_tests' %}">Laboratory</a>
+                    <a href="{% url 'medicine_reminder' %}">Medicine Reminder</a>
     </div>
-
+{% comment %} 
     <div class="nav-right">
         <a href="#">💬 Chat with Us</a>
-    </div>
+    </div> {% endcomment %}
 
     <div class="nav-right">
         <a href="{% url 'patient_dashboard' %}">Profile</a>
@@ -53,11 +64,33 @@
 <p><b>Cholesterol:</b> {{ health.cholesterol }}</p>
 <p><b>Heart Rate:</b> {{ health.heart_rate }}</p>
 
+
+<p><b>Height:</b> {{ health.height }} cm</p>
+<p><b>Weight:</b> {{ health.weight }} kg</p>
+
+<p><b>BMI:</b> {{ bmi }}</p>
+
+{% if bmi < 18.5 %}
+<p class="risk">⚠ Underweight</p>
+{% elif bmi >= 18.5 and bmi <= 24.9 %}
+<p class="safe">✅ Normal Weight</p>
+{% elif bmi >= 25 and bmi <= 29.9 %}
+<p class="risk">⚠ Overweight</p>
+{% else %}
+<p class="risk">⚠ Obesity Risk</p>
+{% endif %}
+
 </div>
 
 
 <div class="analysis-result">
+<div class="health-graph">
 
+<h2>Health Data Graph</h2>
+
+<canvas id="healthChart"></canvas>
+
+</div>
 <h2>Risk Analysis</h2>
 
 {% if bp_risk %}
@@ -128,6 +161,40 @@ data and connect with doctors digitally.
 </div>
 
 </footer>
+<script>
 
+const ctx = document.getElementById('healthChart');
+
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: [
+            'Blood Pressure',
+            'Blood Sugar',
+            'Cholesterol',
+            'Heart Rate'
+        ],
+        datasets: [{
+            label: 'Health Indicators',
+            data: [
+                {{ health.blood_pressure|default:0 }},
+                {{ health.blood_sugar|default:0 }},
+                {{ health.cholesterol|default:0 }},
+                {{ health.heart_rate|default:0 }}
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive:true,
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+</script>
 </body>
 </html>
