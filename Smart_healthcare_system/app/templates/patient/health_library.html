@@ -1,0 +1,205 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Health Library</title>
+        <link rel="stylesheet" href="{% static 'css/home.css' %}">
+        <link rel="stylesheet" href="{% static 'css/library.css' %}">
+    </head>
+    <body>
+        <!-- NAVBAR -->
+        <div class="navbar">
+            <div class="logo">
+                <img src="{% static 'images/healthcare_logo.webp' %}">
+                <i>Smart Healthcare System</i>
+            </div>
+            <div>
+                <a href="{% url 'patient_home' %}">Home</a>
+                <a href="{% url 'health_library' %}">Health Library</a>
+                <a href="{% url 'health_analysis' %}">Health Analysis</a>
+                <a href="{% url 'book_appointment' %}">Appointment</a>
+                <!-- <a href="{% url 'lab_tests' %}">Laboratory</a> -->
+                                     <a href="{% url 'medicine_reminder' %}">Medicine Reminder</a>
+
+            </div>
+            <!-- <div class="nav-right">
+                <a href="#">💬 Chat with Us</a>
+            </div> -->
+            <div class="nav-right">
+                <a href="{% url 'patient_dashboard' %}">Profile</a>
+            </div>
+        </div>
+        <!-- HEALTH INFORMATION FORM -->
+        <section class="health-form-section">
+            <h1>Patient Health Information</h1>
+            <p>Please fill the form to analyze your health condition.</p>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Age</label>
+                        <input type="number" name="age">
+                    </div>
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <select name="gender">
+                            <option value="">Select Gender</option>
+                            <option>Male</option>
+                            <option>Female</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Weight (kg)</label>
+                        <input type="number" name="weight">
+                    </div>
+                    <div class="form-group">
+                        <label>Height (cm)</label>
+                        <input type="number" name="height">
+                    </div>
+                    <div class="form-group">
+                        <label>Blood Pressure (mmHg)</label>
+                        <input type="number" name="blood_pressure">
+                    </div>
+                    <div class="form-group">
+                        <label>Heart Rate (bpm)</label>
+                        <input type="number" name="heart_rate">
+                    </div>
+                    <div class="form-group">
+                        <label>Body Temperature (°C)</label>
+                        <input type="number" name="temperature">
+                    </div>
+                    <div class="form-group">
+                        <label>Oxygen Level (SpO2 %)</label>
+                        <input type="number" name="oxygen_level">
+                    </div>
+                    <div class="form-group">
+                        <label>Blood Sugar (mg/dL)</label>
+                        <input type="number" name="blood_sugar">
+                    </div>
+                    <div class="form-group">
+                        <label>Cholesterol Level</label>
+                        <input type="number" name="cholesterol">
+                    </div>
+                    <div class="form-group">
+                        <label>Hemoglobin (g/dL)</label>
+                        <input type="number" name="hemoglobin">
+                    </div>
+                    <div class="form-group">
+                        <label>Current Symptoms</label>
+                        <input type="text" name="symptoms">
+                    </div>
+                    <div class="form-group">
+                        <label>Previous Disease History</label>
+                        <input type="text" name="disease_history">
+                    </div>
+                    <div class="form-group">
+                        <label>Current Medications</label>
+                        <input type="text" name="medications">
+                    </div>
+                    <div class="form-group">
+                        <label>Allergies</label>
+                        <input type="text" name="allergies">
+                    </div>
+                    <div class="form-group">
+                        <label>Smoking Habit</label>
+                        <select name="smoking">
+                            <option value="">Select</option>
+                            <option>Yes</option>
+                            <option>No</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Alcohol Consumption</label>
+                        <select name="alcohol">
+                            <option value="">Select</option>
+                            <option>Yes</option>
+                            <option>No</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Physical Activity</label>
+                        <select name="exercise">
+                            <option value="">Select</option>
+                            <option>Low</option>
+                            <option>Moderate</option>
+                            <option>High</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Average Sleep Hours</label>
+                        <input type="number" name="sleep_hours">
+                    </div>
+                    <div class="form-group">
+                        <label>Family History of Diabetes</label>
+                        <select name="family_diabetes">
+                            <option value="">Select</option>
+                            <option>Yes</option>
+                            <option>No</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Family History of Heart Disease</label>
+                        <select name="family_heart">
+                            <option value="">Select</option>
+                            <option>Yes</option>
+                            <option>No</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit">Submit Health Data</button>
+            </form>
+        </section>
+        <!-- BROWSE HEALTH TOPICS -->
+        <section class="library-categories">
+            <h2>Browse Health Tips</h2>
+            <div class="category-container">
+                <div class="category-card">
+                    <h3>Heart Health</h3>
+                    <p>Heart health focuses on maintaining healthy blood circulation and preventing cardiovascular diseases through balanced diet, exercise and regular checkups.</p>
+                </div>
+                <div class="category-card">
+                    <h3>Diabetes Care</h3>
+                    <p>Diabetes management involves monitoring blood sugar levels, healthy eating habits, physical activity and medical supervision.</p>
+                </div>
+                <div class="category-card">
+                    <h3>Nutrition</h3>
+                    <p>Proper nutrition provides the body with essential vitamins, minerals and nutrients required for growth, immunity and overall wellbeing.</p>
+                </div>
+                <div class="category-card">
+                    <h3>Mental Health</h3>
+                    <p>Mental health includes emotional, psychological and social well-being. Managing stress and maintaining a healthy lifestyle improves mental balance.</p>
+                </div>
+            </div>
+        </section>
+        <!-- FOOTER -->
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li>Home</li>
+                        <li>Health Analysis</li>
+                        <li>Health Library</li>
+                        <li>Book Appointment</li>
+                        <li></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <p>Email: support@smarthealthcare.com</p>
+                    <p>Location: India</p>
+                </div>
+                <div class="footer-about">
+                    <h4>About Us</h4>
+                    <p>
+                        Smart Healthcare is a digital healthcare platform designed to help users
+monitor their health and manage medical records efficiently.
+                    </p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Smart Healthcare System</p>
+            </div>
+        </footer>
+    </body>
+</html>
