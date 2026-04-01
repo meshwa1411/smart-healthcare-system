@@ -1,0 +1,34 @@
+<h2>Doctor Appointments</h2>
+
+<table border="1">
+
+<tr>
+<th>Patient</th>
+<th>Date</th>
+<th>Time</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+
+{% for a in appointments %}
+
+<tr>
+
+<td>{{ a.patient.user.username }}</td>
+<td>{{ a.date }}</td>
+<td>{{ a.time }}</td>
+<td>{{ a.status }}</td>
+
+<td>
+
+<a href="{% url 'approve_appointment' a.id %}">Approve</a>
+
+<a href="{% url 'reject_appointment' a.id %}">Reject</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>

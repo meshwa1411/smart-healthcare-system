@@ -1,0 +1,38 @@
+[
+{
+  "model": "app.doctor",
+  "pk": 1,
+  "fields": {
+    "name": "Dr Raj Patel",
+    "specialization": "Cardiologist",
+    "experience": 10,
+    "hospital": "Apollo Hospital",
+    "available_days": "Mon-Fri",
+    "available_time": "10AM-2PM"
+  }
+},
+{
+  "model": "app.doctor",
+  "pk": 2,
+  "fields": {
+    "name": "Dr Meera Shah",
+    "specialization": "Dermatologist",
+    "experience": 8,
+    "hospital": "Zydus Hospital",
+    "available_days": "Mon-Sat",
+    "available_time": "11AM-4PM"
+  }
+},
+{
+  "model": "app.doctor",
+  "pk": 3,
+  "fields": {
+    "name": "Dr Amit Singh",
+    "specialization": "Neurologist",
+    "experience": 12,
+    "hospital": "Sterling Hospital",
+    "available_days": "Tue-Sun",
+    "available_time": "9AM-1PM"
+  }
+}
+]

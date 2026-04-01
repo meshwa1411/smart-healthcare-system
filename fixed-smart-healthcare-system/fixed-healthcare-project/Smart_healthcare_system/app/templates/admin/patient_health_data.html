@@ -1,0 +1,155 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Patient Health Data</title>
+
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+
+<style>
+
+.table-section{
+width:95%;
+margin:auto;
+padding:60px 0;
+}
+
+.table-title{
+text-align:center;
+font-size:38px;
+color:#0b6b53;
+margin-bottom:40px;
+}
+
+.health-table{
+width:100%;
+border-collapse:collapse;
+background:white;
+box-shadow:0 5px 20px rgba(0,0,0,0.1);
+}
+
+.health-table th{
+background:#0b6b53;
+color:white;
+padding:12px;
+}
+
+.health-table td{
+padding:12px;
+border-bottom:1px solid #eee;
+text-align:center;
+}
+
+.health-table tr:hover{
+background:#f5f5f5;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<div class="navbar">
+
+<div class="logo">
+<img src="{% static 'images/healthcare_logo.webp' %}">
+<i>Smart Healthcare System</i>
+</div>
+
+<div>
+<a href="{% url 'admin_dashboard' %}">Dashboard</a>
+<a href="{% url 'admin_patient_health' %}">Patient Health</a>
+</div>
+
+</div>
+
+<!-- TABLE -->
+
+<div class="table-section">
+
+<h1 class="table-title">Patient Health Records</h1>
+
+<table class="health-table">
+
+<tr>
+
+<th>Patient</th>
+<th>Age</th>
+<th>Gender</th>
+<th>Weight</th>
+<th>Height</th>
+<th>Blood Pressure</th>
+<th>Blood Sugar</th>
+<th>Heart Rate</th>
+<th>Oxygen</th>
+<th>Cholesterol</th>
+<th>Sleep</th>
+
+</tr>
+
+{% for data in health_data %}
+
+<tr>
+
+<td>{{ data.patient.user.username }}</td>
+<td>{{ data.age }}</td>
+<td>{{ data.gender }}</td>
+<td>{{ data.weight }}</td>
+<td>{{ data.height }}</td>
+<td>{{ data.blood_pressure }}</td>
+<td>{{ data.blood_sugar }}</td>
+<td>{{ data.heart_rate }}</td>
+<td>{{ data.oxygen_level }}</td>
+<td>{{ data.cholesterol }}</td>
+<td>{{ data.sleep_hours }}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+<!-- FOOTER -->
+
+<footer class="footer">
+
+<div class="footer-container">
+
+<div class="footer-links">
+<h4>Quick Links</h4>
+<ul>
+<li><a href="#">Dashboard</a></li>
+<li><a href="#">Patients</a></li>
+</ul>
+</div>
+
+<div class="footer-contact">
+<h4>Contact Us</h4>
+<p>Email: support@smarthealthcare.com</p>
+<p>Location: India</p>
+</div>
+
+<div class="footer-about">
+<h4>About Us</h4>
+<p>
+Smart Healthcare platform designed to
+monitor patient health digitally.
+</p>
+</div>
+
+</div>
+
+<div class="footer-bottom">
+<p>© 2026 Smart Healthcare System</p>
+</div>
+
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,128 @@
+from django.db import migrations, models
+import django.db.models.deletion
+from django.conf import settings
+
+
+class Migration(migrations.Migration):
+
+    initial = True
+
+    dependencies = [
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+    ]
+
+    operations = [
+        migrations.CreateModel(
+            name='UserProfile',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('role', models.CharField(choices=[('patient', 'Patient'), ('doctor', 'Doctor'), ('lab', 'Lab Staff'), ('admin', 'Admin')], max_length=10)),
+                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Patient',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('phone', models.CharField(default='0000000000', max_length=15)),
+                ('age', models.IntegerField(default=0)),
+                ('gender', models.CharField(default='Unknown', max_length=10)),
+                ('address', models.TextField(default='Not Provided')),
+                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Doctor',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=100)),
+                ('specialization', models.CharField(default='General', max_length=100)),
+                ('experience', models.IntegerField()),
+                ('hospital', models.CharField(max_length=200)),
+                ('available_days', models.CharField(max_length=100)),
+                ('available_time', models.CharField(max_length=100)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Appointment',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('appointment_date', models.DateField()),
+                ('appointment_time', models.TimeField()),
+                ('status', models.CharField(choices=[('Pending', 'Pending'), ('Confirmed', 'Confirmed'), ('Rejected', 'Rejected')], default='Pending', max_length=20)),
+                ('rejection_reason', models.TextField(blank=True, null=True)),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
+                ('patient', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='patient_appointments', to='app.patient')),
+                ('doctor', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='doctor_appointments', to='app.doctor')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Prescription',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('medicine', models.TextField()),
+                ('notes', models.TextField()),
+                ('appointment', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.appointment')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='MedicalReport',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('report_file', models.FileField(upload_to='reports/')),
+                ('uploaded_at', models.DateTimeField(auto_now_add=True)),
+                ('patient', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.patient')),
+                ('doctor', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.doctor')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='LabReport',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('test_name', models.CharField(max_length=100)),
+                ('report_file', models.FileField(upload_to='reports/')),
+                ('date', models.DateField()),
+                ('patient', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.patient')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='PatientHealthData',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('age', models.IntegerField()),
+                ('gender', models.CharField(max_length=10)),
+                ('weight', models.FloatField()),
+                ('height', models.FloatField()),
+                ('blood_pressure', models.IntegerField()),
+                ('heart_rate', models.IntegerField()),
+                ('temperature', models.FloatField()),
+                ('oxygen_level', models.IntegerField()),
+                ('blood_sugar', models.FloatField()),
+                ('cholesterol', models.FloatField()),
+                ('hemoglobin', models.FloatField()),
+                ('symptoms', models.TextField()),
+                ('disease_history', models.TextField()),
+                ('medications', models.TextField()),
+                ('allergies', models.TextField()),
+                ('smoking', models.CharField(max_length=10)),
+                ('alcohol', models.CharField(max_length=10)),
+                ('exercise', models.CharField(max_length=20)),
+                ('sleep_hours', models.IntegerField()),
+                ('family_diabetes', models.CharField(max_length=10)),
+                ('family_heart', models.CharField(max_length=10)),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
+                ('patient', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.patient')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='MedicineReminder',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('medicine_name', models.CharField(max_length=100)),
+                ('time', models.TimeField()),
+                ('days', models.IntegerField()),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
+                ('patient', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.patient')),
+            ],
+        ),
+    ]

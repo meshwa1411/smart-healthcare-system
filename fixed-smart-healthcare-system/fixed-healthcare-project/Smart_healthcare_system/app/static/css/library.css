@@ -1,0 +1,102 @@
+/* HEALTH FORM */
+
+.health-form-section{
+padding:80px 10%;
+text-align:center;
+background:#f4f8f7;
+}
+
+.health-form-section h1{
+color:#0b6b53;
+margin-bottom:10px;
+}
+
+.form-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+margin-top:40px;
+}
+
+.form-grid input,
+.form-grid select{
+padding:12px;
+border-radius:8px;
+border:1px solid #ccc;
+}
+.form-group{
+display:flex;
+flex-direction:column;
+}
+
+.form-group label{
+font-size:14px;
+/* font-weight:600; */
+margin-bottom:6px;
+color:#333;
+}
+.health-form-section button{
+margin-top:30px;
+padding:12px 25px;
+background:#0b6b53;
+color:white;
+border:none;
+border-radius:20px;
+font-size:16px;
+cursor:pointer;
+}
+
+/* BROWSE TOPICS */
+
+.library-categories{
+padding:80px 10%;
+text-align:center;
+}
+
+.category-container{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:30px;
+margin-top:40px;
+}
+
+.category-card{
+background:white;
+padding:30px;
+border-radius:10px;
+box-shadow:0 10px 20px rgba(0,0,0,0.08);
+}
+
+.category-card h3{
+color:#0b6b53;
+}
+
+.analysis-section{
+padding:80px 10%;
+text-align:center;
+}
+
+.analysis-box{
+background:white;
+padding:30px;
+margin:40px auto;
+max-width:500px;
+border-radius:10px;
+box-shadow:0 10px 20px rgba(0,0,0,0.1);
+}
+
+.analysis-result{
+margin-top:40px;
+}
+
+.risk{
+color:red;
+font-weight:bold;
+font-size:18px;
+}
+
+.safe{
+color:green;
+font-weight:bold;
+font-size:18px;
+}
